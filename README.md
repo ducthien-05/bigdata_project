@@ -34,7 +34,9 @@ Dự án được tối ưu để chạy trên môi trường Linux. Nếu bạn
 ![streamify-architecture](images/Streamify-Architecture.jpg)
 
 ### 📊 Final Dashboard
-![dashboard](images/dashboard.png)
+<p align="center">
+  <img src="images/dashboard.png" alt="Power BI Dashboard" width="100%">
+</p>
 
 ---
 
