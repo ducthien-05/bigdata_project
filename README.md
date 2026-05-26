@@ -31,7 +31,6 @@ Dự án được tối ưu để chạy trên môi trường Linux. Nếu bạn
 
 
 ### 🏗️ Architecture
-*(Thay thế ảnh này bằng sơ đồ kiến trúc thực tế của dự án nếu có)*
 ![streamify-architecture](images/Streamify-Architecture.jpg)
 
 ### 📊 Final Dashboard
