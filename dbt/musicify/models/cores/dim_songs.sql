@@ -1,0 +1,32 @@
+{{ config(materialized = 'table') }}
+
+SELECT {{ dbt_utils.generate_surrogate_key(['songId']) }} AS songKey,
+       *
+FROM (
+        SELECT 
+            song_id as songId,
+            REPLACE(REPLACE(artist_name, '"', ''), '\\', '') as artistName,
+            duration,
+            key,
+            key_confidence as keyConfidence,
+            loudness,
+            song_hotttnesss as songHotness,
+            tempo,
+            title,
+            year
+        FROM {{ ref('stg_songs') }}
+
+        UNION ALL
+
+        SELECT 
+            'NNNNNNNNNNNNNNNNNNN' as songId,
+            'NA' as artistName,
+            0.0 as duration,
+            -1 as key,
+            -1.0 as keyConfidence,
+            -1.0 as loudness,
+            -1.0 as songHotness,
+            -1.0 as tempo,
+            'NA' as title,
+            0 as year
+    )
