@@ -1,9 +1,10 @@
 version: 2
 
 sources:
-  - name: staging
+  - name: raw
     schema: musicify
     tables:
       - name: listen_events
       - name: page_view_events
       - name: auth_events
+      - name: ext_songs
