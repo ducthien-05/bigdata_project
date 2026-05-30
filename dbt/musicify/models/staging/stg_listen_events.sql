@@ -2,7 +2,7 @@
 
 WITH source AS (
     -- Gọi dữ liệu gốc từ cấu hình sources.yml
-    SELECT * FROM {{ source('staging', 'listen_events') }}
+    SELECT * FROM {{ source('raw', 'listen_events') }}
 ),
 
 renamed_and_casted AS (

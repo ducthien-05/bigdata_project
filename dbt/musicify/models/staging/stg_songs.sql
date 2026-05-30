@@ -1,3 +1,3 @@
 {{ config(materialized='view') }}
 
-SELECT * FROM musicify.ext_songs
+SELECT * FROM {{ source('raw', 'ext_songs') }}

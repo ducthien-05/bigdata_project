@@ -1,6 +1,14 @@
 {{ config(
-  materialized = 'table'
+    materialized = 'incremental'
 ) }}
+
+WITH listen_events_filtered AS (
+    SELECT * FROM {{ ref('stg_listen_events') }}
+    
+    {% if is_incremental() %}
+        WHERE ts > (SELECT MAX(ts) FROM {{ this }})
+    {% endif %}
+)
 
 SELECT 
     dim_users.userKey AS userKey,
@@ -9,11 +17,10 @@ SELECT
     dim_datetime.dateKey AS dateKey,
     dim_location.locationKey AS locationKey,
     listen_events.ts AS ts
--- Thay source thô bằng View sạch của chúng ta
- FROM {{ ref('stg_listen_events') }} listen_events
+
+ FROM listen_events_filtered listen_events
 
   LEFT JOIN {{ ref('dim_users') }} dim_users
-    -- Chú ý: Đổi userId thành user_id cho khớp với cột ở staging
     ON listen_events.user_id = dim_users.userId 
     AND CAST(listen_events.ts AS DATE) >= dim_users.rowActivationDate 
     AND CAST(listen_events.ts AS DATE) < dim_users.rowExpirationDate
@@ -32,5 +39,4 @@ SELECT
     AND listen_events.lon = dim_location.longitude 
 
   LEFT JOIN {{ ref('dim_datetime') }} dim_datetime
-    -- Đổi cú pháp date_trunc chuẩn Spark
     ON dim_datetime.date = date_trunc('hour', listen_events.ts)

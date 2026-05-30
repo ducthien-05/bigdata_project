@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 WITH source AS (
-    SELECT * FROM {{ source('staging', 'auth_events') }}
+    SELECT * FROM {{ source('raw', 'auth_events') }}
 ),
 
 renamed_and_casted AS (
