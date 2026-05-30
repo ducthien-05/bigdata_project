@@ -30,7 +30,7 @@ Dự án được tối ưu để chạy trên môi trường Linux. Nếu bạn
 - **Terminal:** Ubuntu Bash.
 
 
-### 🏗️ Architecture
+### 🏗️ Data Architecture
 <p align="center">
   <img src="images/Data_Architecture.jpg" alt="Data Architecture" width="100%">
 </p>
