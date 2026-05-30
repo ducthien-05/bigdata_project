@@ -66,6 +66,7 @@ services:
       bash -c "sleep 30 && /spark/bin/spark-submit
       --class org.apache.spark.sql.hive.thriftserver.HiveThriftServer2
       --master spark://spark-master:7077
+      --total-executor-cores ${THRIFT_CORES:-4}
       --driver-memory 4G
       --executor-memory 2G
       --conf spark.driver.maxResultSize=2G
@@ -73,6 +74,7 @@ services:
       --conf spark.sql.catalogImplementation=hive
       --conf spark.hadoop.hive.metastore.uris=thrift://hive-metastore:9083
       --conf spark.sql.warehouse.dir=hdfs://namenode:9000/user/hive/warehouse
+      --conf spark.hadoop.fs.hdfs.impl.disable.cache=true
       spark-internal"
     ports:
       - "10000:10000"
