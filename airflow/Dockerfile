@@ -9,5 +9,4 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 USER airflow
 COPY requirements.txt /
-# Đã xóa chữ apache-airflow ở lệnh này để tránh nó check lại phiên bản gây lỗi
 RUN pip install --no-cache-dir -r /requirements.txt

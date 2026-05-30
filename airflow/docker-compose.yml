@@ -10,15 +10,12 @@ x-airflow-common:
   volumes:
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
-    # ĐIỂM CỐT LÕI: Gắn thư mục dbt của bro vào trong Airflow
-    # Thay "../dbt" bằng đường dẫn thực tế đến thư mục dbt project của bro nếu cần
     - ../dbt:/dbt 
   depends_on:
     postgres:
       condition: service_healthy
 
 services:
-  # Cần 1 con Postgres siêu nhẹ để Airflow ghi chép lịch sử chạy
   postgres:
     image: postgres:13
     container_name: airflow-postgres
@@ -50,7 +47,7 @@ services:
       postgres:
         condition: service_healthy
 
-  # Giao diện Web siêu mượt của Airflow
+  # Giao diện Web của Airflow
   airflow-webserver:
     <<: *airflow-common
     container_name: airflow-webserver
@@ -66,7 +63,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-  # Bộ não điều phối, nơi hẹn giờ và bóp cò chạy dbt
+  # Bộ não điều phối chạy dbt
   airflow-scheduler:
     <<: *airflow-common
     container_name: airflow-scheduler
@@ -74,3 +71,7 @@ services:
     depends_on:
       airflow-init:
         condition: service_completed_successfully
+networks:
+  default:
+    name: bigdata_network
+    external: true

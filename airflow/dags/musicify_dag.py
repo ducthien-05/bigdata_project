@@ -27,6 +27,11 @@ with DAG(
         task_id='spark_pull_kafka_to_hdfs',
         bash_command='echo "Đang giả lập việc Spark submit job kéo dữ liệu từ Kafka xuống HDFS..." && sleep 5'
     )
+
+    dbt_seed_task = BashOperator(
+        task_id='dbt_seed_reference_data',
+        bash_command='cd /dbt/musicify && dbt seed --profiles-dir /dbt/musicify'
+    )
     
     dbt_run_dims = BashOperator(
         task_id='dbt_build_dimensions',
@@ -51,6 +56,7 @@ with DAG(
     (
         start_pipeline 
         >> spark_ingestion 
+        >> dbt_seed_task
         >> dbt_run_dims 
         >> dbt_run_fact 
         >> dbt_run_wide
